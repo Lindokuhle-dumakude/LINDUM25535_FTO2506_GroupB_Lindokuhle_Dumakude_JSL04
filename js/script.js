@@ -51,7 +51,20 @@ function renderTasks(tasks) {
   updateColumnCounts(tasks);
 }
 
-
+/**
+ * Update the column headings with the number of tasks in each column.
+ * @param {Array<Object>} tasks - The list of task objects.
+ */
+function updateColumnCounts(tasks) {
+  const statuses = ["todo", "doing", "done"];
+  statuses.forEach((status) => {
+    const count = tasks.filter((task) => task.status === status).length;
+    const heading = document.querySelector(`.${status}-heading`);
+    if (heading) {
+      heading.textContent = `${status.toUpperCase()} (${count})`;
+    }
+  });
+}
 
 // ====== INITIAL RENDER ======
 document.addEventListener("DOMContentLoaded", () => {
