@@ -70,3 +70,65 @@ function updateColumnCounts(tasks) {
 document.addEventListener("DOMContentLoaded", () => {
   renderTasks(initialTasks);
 });
+
+/**
+ * Open the modal with task details for editing.
+ * Only opens when a task is provided.
+ * @param {Object} task - Task object to edit.
+ */
+function openTaskModal(task) {
+  if (!task) return; // prevent opening without a task
+
+  const modal = document.getElementById("taskModal");
+  modal.style.display = "block";
+
+  const modalTitle = document.getElementById("modalTitle");
+  const taskIdInput = document.getElementById("taskId");
+  const titleInput = document.getElementById("taskTitle");
+  const descInput = document.getElementById("taskDescription");
+  const statusSelect = document.getElementById("taskStatus");
+
+  modalTitle.textContent = "Edit Task";
+  taskIdInput.value = task.id;
+  titleInput.value = task.title;
+  descInput.value = task.description || "";
+  statusSelect.value = task.status;
+}
+
+/** Close modal */
+function closeTaskModal() {
+  const modal = document.getElementById("taskModal");
+  modal.style.display = "none";
+}
+
+/** Create a card and attach edit modal on click */
+function createTaskCard(task) {
+  const card = document.createElement("div");
+  card.classList.add("card");
+  card.textContent = task.title;
+  card.dataset.id = task.id;
+
+  card.addEventListener("click", () => {
+    openTaskModal(task); // only edit mode
+  });
+
+  return card;
+}
+
+/** Setup modal event listeners */
+function setupModalEventListeners() {
+  const modal = document.getElementById("taskModal");
+  const closeBtn = modal.querySelector(".close-btn");
+
+  closeBtn.addEventListener("click", closeTaskModal);
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) closeTaskModal();
+  });
+}
+
+/** Initial setup */
+document.addEventListener("DOMContentLoaded", () => {
+  renderTasks(initialTasks);
+  setupModalEventListeners();
+});
