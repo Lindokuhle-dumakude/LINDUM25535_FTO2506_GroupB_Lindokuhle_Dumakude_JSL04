@@ -334,6 +334,10 @@ form input, form textarea, form select {
   margin-bottom: 12px;
 }
 
+select {
+    cursor: pointer;
+}
+
 textarea {
   min-height: 80px;
   resize: vertical;
